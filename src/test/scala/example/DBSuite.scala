@@ -1,15 +1,24 @@
 package example
 
+import _root_.skunk._
+import _root_.skunk.codec.all.text
+import _root_.skunk.implicits._
+import _root_.skunk.util.Typer
+import cats.effect.IO
+import cats.effect.Resource
+import natchez.Trace.Implicits.noop
+import weaver.IOSuite
+import weaver.scalacheck.CheckConfig
+import weaver.scalacheck.Checkers
+
 trait DBSuite extends IOSuite with Checkers with Container {
   type Res = Resource[IO, Session[IO]]
 
   def beforeAll(implicit session: Resource[IO, Session[IO]]): IO[Unit] = IO.unit
 
-  override def checkConfig: CheckConfig = CheckConfig.default.copy(minimumSuccessful = 1)
-
   def checkPostgresConnection(
-                               postgres: Resource[IO, Session[IO]]
-                             ): IO[Unit] =
+      postgres: Resource[IO, Session[IO]]
+    ): IO[Unit] =
     postgres.use { session =>
       session.unique(sql"select version();".query(text)).flatMap { v =>
         logger.info(s"Connected to Postgres $v")
