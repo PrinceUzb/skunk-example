@@ -9,5 +9,5 @@ private[repositories] object UsersSql {
   private val columns = uuid *: nes *: role
   private val codec: Codec[User] = columns.to[User]
   val insert: Command[User] =
-    sql"""INSERT INTO example.users VALUES ($codec)""".command
+    sql"""INSERT INTO users VALUES ($codec)""".command
 }

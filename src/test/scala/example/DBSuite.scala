@@ -37,6 +37,7 @@ trait DBSuite extends IOSuite with Checkers with Container {
           database = container.getDatabaseName,
           max = 100,
           strategy = Typer.Strategy.SearchPath,
+          parameters = Map("search_path" -> schemaName) ++ Session.DefaultConnectionParameters,
         )
         .evalTap(checkPostgresConnection)
       _ <- Resource.eval(beforeAll(session))

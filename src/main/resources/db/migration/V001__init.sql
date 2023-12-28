@@ -1,6 +1,6 @@
-CREATE TYPE example.user_role AS ENUM ('editor', 'owner', 'admin');
+CREATE TYPE user_role AS ENUM ('editor', 'owner', 'admin');
 
-CREATE TABLE IF NOT EXISTS example.users
+CREATE TABLE IF NOT EXISTS users
 (
     id  UUID PRIMARY KEY,
     name VARCHAR NOT NULL,
